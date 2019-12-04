@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Location Alarm 2</string>
+    <string name="Title">Alarms</string>
+    <string name="Button1">Location Alarm</string>
+    <string name="Question">Enter the time you want in between alarms (in seconds)</string>
+    <string name="submit">Submit</string>
+</resources>
