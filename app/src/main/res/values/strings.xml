@@ -2,6 +2,11 @@
     <string name="app_name">Location Alarm 2</string>
     <string name="Title">Alarms</string>
     <string name="Button1">Location Alarm</string>
-    <string name="Question">Enter the time you want in between alarms (in seconds)</string>
+    <string name="Question">Enter the time you want in between alarms (in minutes)</string>
     <string name="submit">Submit</string>
+    <string name="timerTime"></string>
+    <string name="cancel">Cancel</string>
+    <string name="Continue">continue</string>
+    <string name="Move">Get up and move!</string>
+    <string name="Alert">Alert!</string>
 </resources>

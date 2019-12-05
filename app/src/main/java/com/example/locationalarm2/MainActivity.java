@@ -2,43 +2,44 @@ package com.example.locationalarm2;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+import androidx.fragment.app.DialogFragment;
 
 import android.Manifest;
-import android.app.AlarmManager;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.icu.text.CaseMap;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.Calendar;
 
 
 public class MainActivity extends AppCompatActivity {
     public static final String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
+    public int userInput = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        AlarmManager alarmMgr = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(this, MyAlarmReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
-        Calendar time = Calendar.getInstance();
-        time.setTimeInMillis(System.currentTimeMillis());
-        time.add(Calendar.SECOND, 120);
-        alarmMgr.set(AlarmManager.RTC_WAKEUP, time.getTimeInMillis(), pendingIntent);
-
-
+        Bundle bundle = new Bundle();
+        // add extras here..
+        MyAlarm alarm = new MyAlarm(this, bundle, userInput);
         if (Build.VERSION.SDK_INT >= 23) {
             if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) !=
                     PackageManager.PERMISSION_GRANTED) {
@@ -48,15 +49,12 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
         }
-
         getLocation();
-
     }
+
 
     //get access to location permission
     final private int REQUEST_CODE_ASK_PERMISSIONS = 123;
-
-
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         switch (requestCode) {
@@ -65,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
                     getLocation();
                 } else {
                     // Permission Denied
-                    Toast.makeText(this, "your message", Toast.LENGTH_SHORT)
+                    Toast.makeText(this, "We need location to use alarm", Toast.LENGTH_LONG)
                             .show();
                 }
                 break;
@@ -73,30 +71,17 @@ public class MainActivity extends AppCompatActivity {
                 super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
-
     //Get location
     public void getLocation() {
         LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    Activity#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for Activity#requestPermissions for more details.
+
             return;
         }
         Location myLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         if (myLocation == null) {
             if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                // TODO: Consider calling
-                //    Activity#requestPermissions
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for Activity#requestPermissions for more details.
+
                 return;
             }
             myLocation = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
@@ -104,13 +89,43 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
+
     /** Called when the user taps the Send button */
     public void sendMessage(View view) {
         Intent intent = new Intent(this, LocationAlarmInfoActivity.class);
-        EditText editText = (EditText) findViewById(R.id.editText);
-        String message = editText.getText().toString();
+        TextView Title = findViewById(R.id.Title);
+        String message = Title.getText().toString();
         intent.putExtra(EXTRA_MESSAGE, message);
         startActivity(intent);
     }
+
+
+    private class MyLocationListener implements LocationListener{
+
+        @Override
+        public void onLocationChanged(Location location) {
+            Bundle bundle = new Bundle();
+            MyAlarm alarm = new MyAlarm(MainActivity.this, bundle, userInput);
+        }
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+            Toast.makeText(MainActivity.this, provider + "'s status changed to " + status + "!",
+                    Toast.LENGTH_LONG).show();
+        }
+        @Override
+        public void onProviderEnabled(String provider) {
+            Toast.makeText(MainActivity.this, "Provider " + provider + " enabled!",
+                    Toast.LENGTH_LONG).show();
+        }
+        @Override
+        public void onProviderDisabled(String provider) {
+            Toast.makeText(MainActivity.this, "Provider " + provider + " disabled!",
+                    Toast.LENGTH_LONG).show();
+        }
+    }
+
 }
+
+
 
