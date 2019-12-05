@@ -8,6 +8,6 @@ import android.widget.Toast;
 public class MyAlarmReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
-        Toast.makeText(context, "Alarm went off", Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, "Get up and move!", Toast.LENGTH_LONG).show();
     }
 }
