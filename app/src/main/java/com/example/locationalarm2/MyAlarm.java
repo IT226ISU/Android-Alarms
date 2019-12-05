@@ -34,10 +34,10 @@ public class MyAlarm extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         // here you can get the extras you passed in when creating the alarm
         //intent.getBundleExtra(REMINDER_BUNDLE));
-        AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
-        builder1.setMessage("Get up and move!");
-        builder1.setCancelable(true);
-
+//        AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
+//        builder1.setMessage("Get up and move!");
+//        builder1.setCancelable(true);
+//
 //        builder1.setPositiveButton(
 //                "Continue",
 //                new DialogInterface.OnClickListener() {
