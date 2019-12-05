@@ -52,10 +52,17 @@ public class CreateAlarmActivity extends AppCompatActivity {
         total = total - System.currentTimeMillis();
         time.setTimeInMillis(System.currentTimeMillis());
         if(choice.equals("One-Time")){
-            AlarmManager alarmMgr = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-            Intent intent = new Intent(this, MyAlarmReceiver.class);
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
-            alarmMgr.set(AlarmManager.RTC_WAKEUP,time.getTimeInMillis() + total, pendingIntent);
+//            AlarmManager alarmMgr = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+//            Intent intent = new Intent(this, MyAlarmReceiver.class);
+//            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
+//            alarmMgr.set(AlarmManager.RTC_WAKEUP,time.getTimeInMillis() + total, pendingIntent);
+            Bundle bundle = new Bundle();
+            int num = (int)total;
+            MyAlarmReceiver alarm1 = new MyAlarmReceiver(this,bundle, num);
+
+        }
+        else if (choice.equals("Location")){
+
         }
         else{
             AlarmManager alarmMgr = (AlarmManager)getSystemService(Context.ALARM_SERVICE);

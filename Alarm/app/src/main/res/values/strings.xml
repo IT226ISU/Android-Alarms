@@ -5,6 +5,7 @@
     <string-array name="alarm_array">
         <item>One-Time</item>
         <item>Repeating</item>
+        <item>Location</item>
     </string-array>
     <string name="Message">Alarm Message</string>
     <string name="Time">00:00 AM/PM</string>
