@@ -56,6 +56,15 @@ public class MyAlarm extends BroadcastReceiver {
 //
 //        AlertDialog alert11 = builder1.create();
 //        alert11.show();
+//            Intent I = new Intent(context, MyAlarm.class);
+//            I.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//            context.startActivity(I);
+//        Bundle bundle = new Bundle();
+//        AlertDialogActivity dialog1 = new AlertDialogActivity();
+//        dialog1.onCreate(bundle);
+
+
+
         Toast.makeText(context, "Get up and move!", Toast.LENGTH_LONG).show();
     }
 }

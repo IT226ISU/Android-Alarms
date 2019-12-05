@@ -89,6 +89,30 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+//    private void displayAlert(){
+//        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+//        builder1.setMessage("Get up and move!");
+//        builder1.setCancelable(true);
+//
+//        builder1.setPositiveButton(
+//                "Continue",
+//                new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int id) {
+//                        dialog.cancel();
+//                    }
+//                });
+//
+//        builder1.setNegativeButton(
+//                "Close",
+//                new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int id) {
+//                        dialog.cancel();
+//                    }
+//                });
+//
+//        AlertDialog alert11 = builder1.create();
+//        alert11.show();
+//    }
 
 
     /** Called when the user taps the Send button */
@@ -100,6 +124,13 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void sendMessage2(View view) {
+        Intent intent2 = new Intent(this, NewAlarm.class);
+        TextView Title = findViewById(R.id.Title);
+        String message = Title.getText().toString();
+        intent2.putExtra(EXTRA_MESSAGE, message);
+        startActivity(intent2);
+    }
 
     private class MyLocationListener implements LocationListener{
 
